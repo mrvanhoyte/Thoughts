@@ -3,7 +3,8 @@ require('dotenv').config()
 const express = require("express")
 const res = require('express/lib/response')
 const notion =require('./notion')
-const { createThought } = require('./notion')
+const { createThought, getThoughts
+ } = require('./notion')
 
 const app = express()
 app.set('views','./views')
@@ -13,8 +14,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 //renders the page
-app.get("/", (req, res)=>{
-    res.render("index")
+app.get("/", async (req, res)=>{
+    const thoughts = await getThoughts()
+    res.render("index", { thoughts })
 })
 
 
